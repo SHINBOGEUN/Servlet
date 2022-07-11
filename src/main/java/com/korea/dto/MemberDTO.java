@@ -5,13 +5,10 @@ public class MemberDTO {
 	private String pwd;
 	private String addr1;
 	private String addr2;
-	private int grade;  //일반 계정 : /1 관리자계정 : 2/ 익명 계정 : 0 권한 구분
-	
-	
-	public MemberDTO() {
-		grade = 1;
-	}
-	
+	private int grade; //일반 : 1 관리자 : 2 익명 :0
+	public MemberDTO() { //별다른 처리 안하면 디폴트생성자로 grade를 1로 
+		grade=1;
+	} 
 	public String getEmail() {
 		return email;
 	}
@@ -42,14 +39,11 @@ public class MemberDTO {
 	public void setGrade(int grade) {
 		this.grade = grade;
 	}
-	
 	@Override
 	public String toString() {
 		return "MemberDTO [email=" + email + ", pwd=" + pwd + ", addr1=" + addr1 + ", addr2=" + addr2 + ", grade="
 				+ grade + "]";
 	}
-	
-	
 	
 	
 }
