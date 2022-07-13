@@ -122,3 +122,25 @@ https://m.blog.naver.com/PostView.naver?isHttpsRedirect=true&blogId=adamdoha&log
 1) 세션 usergrade 가져오기
 2) URL pagegrade 가져오기
 3) 권한 설정
+
+
+
+-----------------
+총 페이지 수 받기
+-----------------
+DAO - select count(*) from tbl_board
+Service
+Controller (req.setAttribute())
+view
+
+
+list.jsp
+-전체 게시물 건수 받기
+-전체 페이지 계산
+
+-----------------
+페이지네이션
+-----------------
+
+-표시할 페이지 블러 수
+-전체 블럭 수( 전체 페이지 수)

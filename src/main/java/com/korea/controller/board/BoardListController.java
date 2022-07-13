@@ -16,12 +16,29 @@ public class BoardListController implements SubController {
 	public void execute(HttpServletRequest req, HttpServletResponse resp) {
 		
 		try {
-			int start = 1;
-			int end = 10;
+			String tmpstart = req.getParameter("start");
+			String tmpend = req.getParameter("end");
+			String nowPage = req.getParameter("nowPage");
+			
+			int start = 0;
+			int end = 0;
+			if(tmpstart == null || tmpend == null) {
+				 start = 1;
+				 end = 10;
+			}else {
+				start = Integer.parseInt(tmpstart);
+				end = Integer.parseInt(tmpend);
+			}
 			
 			List<BoardDTO> list = service.getBoardList(start, end);
+			int tcnt = service.getTotalCount();
+			
 			
 			req.setAttribute("list", list);
+			req.setAttribute("tcnt", tcnt);
+			
+			//정리 6일차 (페이지 정리)
+			req.setAttribute("nowPage", nowPage);
 			
 			req.getRequestDispatcher("/WEB-INF/board/list.jsp").forward(req,resp);
 			

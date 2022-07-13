@@ -68,13 +68,19 @@ public class DaoTest {
 //		service.MemberInsert(dto); //게스트 계정 등록
 		
 //	}
+//	@Test
+//	public void test4() {
+//		BoardDAO dao = BoardDAO.getInstance();
+//		List<BoardDTO> list = dao.Select(1, 10);
+//		System.out.println(list.size());
+//		
+//		list.forEach(dto -> System.out.println(dto));
+//	}
 	@Test
-	public void test4() {
+	public void test5() {
 		BoardDAO dao = BoardDAO.getInstance();
-		List<BoardDTO> list = dao.Select(1, 10);
-		System.out.println(list.size());
-		
-		list.forEach(dto -> System.out.println(dto));
+		int result = dao.getTotalCount();
+		System.out.println(result);
 	}
 	
 	
