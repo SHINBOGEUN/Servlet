@@ -42,7 +42,7 @@ public class LoginController implements SubController{
 					HttpSession session=req.getSession();
 					session.setAttribute("grade", dto.getGrade());
 					session.setAttribute("email",dto.getEmail()); //나의정보 클릭시 세션으로부터 이메일정보를 꺼내서 DAO로 전달하여 계정 전체 정보를 가져옴
-					session.setMaxInactiveInterval(60*5);
+					session.setMaxInactiveInterval(60*30);
 					
 					//View 이동
 					resp.sendRedirect("/main.jsp"); //Login.jsp에서 LOGIN 클릭 시 main.jsp로 리다이렉션!

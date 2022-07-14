@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.HashMap;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 //import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -20,6 +21,14 @@ import com.korea.controller.notice.NoticeListController;
 import com.korea.controller.notice.NoticePostController;
 
 
+
+
+@MultipartConfig(
+		fileSizeThreshold = 1024*1024*10, 	//10mb
+		maxFileSize = 1024*1024*50,			//50mb
+		maxRequestSize = 1024*1024*100		//100mb
+				
+)
 //@WebServlet
 public class FrontController extends HttpServlet{
 	//Url정보와 서브 컨트롤러 객체를 저장하는 컬렉션 생성

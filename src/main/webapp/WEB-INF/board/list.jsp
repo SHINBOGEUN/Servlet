@@ -12,7 +12,7 @@
 </head>
 <body>
 	<div class="contanier-md" id="wrapper"
-		style="width: 80%; margin: 100px auto;">
+		style="margin: 100px auto;">
 		<!-- TopMenu -->
 		<%@include file="/resources/includes/topmenu.jsp"%>
 		<!-- Nav -->
@@ -95,13 +95,17 @@
 				
 				/* 처음으로 이동 처리 */
 				function init(){
-						
-					
+						form = document.initFrm;
+						form.nowPage.value = 1;
+						form.action="/Board/list.do";
+						form.submit();
 				}
 			</script>
 				<form name = initFrm method = get>
 					<input type = hidden name = nowPage>
 				</form>
+			
+			
 			
 			<!-- 페이징 처리 폼 -->
 			<form name = "readFrm" method = "get">
@@ -113,10 +117,10 @@
 			
 			<table class="table"> 
 				<tr>
-					<td><span style = "color: hotpink;"><%=nowPage %></span> / <%=totalPage %> Page</td>
+					<td><span style = "color: hotpink;"><%=nowPage %></span> / <%=totalPage+1 %> Page</td>
 					<td style = "border:0px; text-align: right;">
 						<button class ="btn btn-secondary" onclick="init()">처음으로</button>
-						<button class ="btn btn-secondary">글쓰기</button>
+						<a class ="btn btn-secondary" href="/Board/post.do">글쓰기</a>
 					</td>
 				</tr>
 			</table>

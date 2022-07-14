@@ -11,7 +11,7 @@
 
 </head>
 <body>
-	<div class="contanier-md" id="wrapper" style="width:80%; margin:100px auto;">
+	<div class="contanier-md" id="wrapper" style="margin:100px auto;">
 		<!-- TopMenu -->
 		<%@include file="/resources/includes/topmenu.jsp" %>
 		<!-- Nav -->
