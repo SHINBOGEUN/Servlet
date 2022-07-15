@@ -28,6 +28,7 @@ public class BoardService {
 	public int getTotalCount() {
 		return dao.getTotalCount();
 	}
+	
 	public boolean PostBoard(BoardDTO dto) {
 		return dao.Insert(dto);
 	}
@@ -56,6 +57,14 @@ public class BoardService {
 			if(part.getName().equals("files")){
 				
 				String FileName = getFileName(part); //파일이름 가져오기
+					
+				totalFilename.append(FileName + ";");
+				
+				totalFilesize.append(String.valueOf(part.getSize()) +  ";");
+				
+				
+				 
+				try {
 				int start = FileName.length()-4;
 				int end = FileName.length();
 				String ext = FileName.substring(start,end);
@@ -63,16 +72,18 @@ public class BoardService {
 				
 				FileName = FileName+" " + UUID.randomUUID().toString() + ext;
 				//DTO저장위한 파일명 buffer에 추가
-				totalFilename.append(FileName + ";");
 				
-				totalFilesize.append(String.valueOf(part.getSize()) +  ";");
-				try {
-					part.write(RealPath + "/" + FileName);
+				part.write(RealPath + "/" + FileName);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
 			}
 		}
+		//총 파일명과 파일사이즈 저장
+		
+		dto.setFilename(totalFilename.toString());		
+		dto.setFilesize(totalFilesize.toString());		
+		
 		//DAO 파일명 전달
 		return dao.Insert(dto);
 	}
@@ -81,5 +92,8 @@ public class BoardService {
 		String[] arr = contentDisp.split(";");
 		String Filename = arr[2].substring(11, (arr[2].length()-1));
 		return Filename;
+	}
+	public BoardDTO getBoardDTO(int no) {
+		return dao.Select(no);
 	}
 }

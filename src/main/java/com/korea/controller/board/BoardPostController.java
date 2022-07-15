@@ -45,9 +45,15 @@ public class BoardPostController implements SubController {
 				
 				ArrayList<Part> parts = (ArrayList<Part>) req.getParts();
 				boolean result = false;
-				if(parts == null) {
+				
+				System.out.println(parts.get(3).getName());
+				
+				long size = parts.get(3).getSize();
+				if(size == 0) {
+					System.out.println("1");
 					result = service.PostBoard(dto);
 				}else {
+					System.out.println("2");
 					result = service.PostBoard(dto,parts);
 				}
 				
@@ -63,6 +69,7 @@ public class BoardPostController implements SubController {
 				}else {
 					req.getRequestDispatcher("/WEB-INF/board/post.jsp").forward(req,resp);
 				}
+				
 				//4View
 			}
 			

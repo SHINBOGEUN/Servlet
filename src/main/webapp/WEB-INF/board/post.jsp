@@ -31,8 +31,8 @@
 			<input name = title class = "form-control mb-3 w-50" placeholder="Title">
 			<textarea name = "content"  class = "form-control mb-3 w-50" style= "height:500px;"></textarea>
 			<input type = password name = pwd class = "form-control mb-3 w-50" placeholder="Enter Password">
-			<input type=file name =files multiple/ class = "form-control mb-3 w-50">
-			<input type = submit name ="글쓰기" class = "btn btn-primary"> 
+			<input type=file name =files  class = "form-control mb-3 w-50" multiple>
+			<input type = submit name ="글쓰기" class = "btn btn-primary" value ="글쓰기"> 
 			 <input type="hidden" name="flag" value="true">
 			<a href="" class = "btn btn-primary">처음으로</a>
 		</form>		

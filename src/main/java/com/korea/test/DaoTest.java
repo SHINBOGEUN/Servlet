@@ -83,21 +83,29 @@ public class DaoTest {
 //		System.out.println(result);
 //	}
 //	
-	@Test
+//	@Test
 	
-	public void test6() {
-		
+//	public void test6() {
+//		
+//		BoardDAO dao = BoardDAO.getInstance();
+//		BoardDTO dto = new BoardDTO();
+//		
+//		dto.setTitle("New");
+//		dto.setContent("내용");
+//		dto.setWriter("나");
+//		dto.setPwd("123114");
+//		dto.setIp("192.160.10.1");
+//		
+//		
+//		dao.Insert(dto);
+//	}
+	
+	@Test
+	public void test7() {
 		BoardDAO dao = BoardDAO.getInstance();
-		BoardDTO dto = new BoardDTO();
-		
-		dto.setTitle("New");
-		dto.setContent("내용");
-		dto.setWriter("나");
-		dto.setPwd("123114");
-		dto.setIp("192.160.10.1");
-		
-		
-		dao.Insert(dto);
+		BoardDTO dto = dao.Select(500);
+		System.out.println(dto);
 	}
+	
 
 }
