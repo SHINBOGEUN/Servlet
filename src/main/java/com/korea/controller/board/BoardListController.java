@@ -31,7 +31,7 @@ public class BoardListController implements SubController {
 			}
 			
 			List<BoardDTO> list = service.getBoardList(start, end);
-			int tcnt = service.getTotalCount();
+			int tcnt = service.getTotalCnt();
 			
 			
 			req.setAttribute("list", list);
