@@ -13,7 +13,7 @@ public class BoardDownloadController implements SubController{
 		
 		//파라미터
 		String filename= req.getParameter("filename");
-		
+		String flag = req.getParameter("flag");
 		
 		
 		
@@ -23,7 +23,12 @@ public class BoardDownloadController implements SubController{
 		
 		
 		//서비스
-		boolean result = service.download(filename, req, resp);
+		boolean result = false;
+		if(flag == null) {
+			service.download(filename, req, resp);
+		}else {
+			service.download(req, resp);
+		}
 		
 		
 		

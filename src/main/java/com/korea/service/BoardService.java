@@ -2,15 +2,16 @@ package com.korea.service;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
@@ -62,7 +63,9 @@ public class BoardService {
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd"); 
 		String date = simpleDateFormat.format(now); 
 		
-		String subPath=email+"/"+date;
+		String no = String.valueOf(dto.getNo()+ 1);
+		
+		String subPath=email+"/"+date + "/" + no;
 		
 		//3) File클래스 경로 잡고
 		File RealPath= new File(UploadPath+subPath);
@@ -158,6 +161,7 @@ public class BoardService {
 		
 		String email = dto.getWriter();
 		String regdate = dto.getRegdate();
+		String no = String.valueOf(dto.getNo());
 		regdate = regdate.substring(0,10);
 		
 		//System.out.println("REGDate : " +regdate);
@@ -208,7 +212,111 @@ public class BoardService {
 	}
 	
 	
+	public boolean download
+	(
+			HttpServletRequest req,
+			HttpServletResponse resp
+	)
+	{
+		
+		//파일명,	//등록날짜
+		//이메일계정 가져오기
+		HttpSession session = req.getSession();
+		BoardDTO dto = (BoardDTO)session.getAttribute("dto");
+		
+		String email = dto.getWriter();
+		String regdate = dto.getRegdate();
+		regdate = regdate.substring(0,10);
+		//System.out.println("REGDate : " +regdate);
+		//1 경로설정
+		String downdir="c://upload";	
+		String filepath= downdir+"/"+email+"/"+regdate+"/";
+		//2 헤더설정
+		resp.setContentType("application/octet-stream");
+		//3파일 검색
+		File dir = new File(filepath);
+		File[] flist = dir.listFiles();// 파일들 꺼내오는 작업(절대경로)
+
+		//4 문자셋 설정
+		try {
+			for (int i = 0; i < flist.length; i++) {
+				String filename = flist[i].getName();
+				filename=URLEncoder.encode(filename,"utf-8").replaceAll("\\+", "%20");
+				resp.setHeader("Content-Disposition", "attachment; fileName="+filename);
+				//04스트림형성(다운로드 처리)
+				FileInputStream fin = new FileInputStream(flist[i]);
+				ServletOutputStream bout=resp.getOutputStream();
+				
+				int read=0;
+				byte[] buff = new byte[4096];
+				while(true)
+				{
+					read=fin.read(buff,0,buff.length);		 
+					if(read==-1)	 
+						break;		 		
+					bout.write(buff,0,read);	 
+				}
+				bout.flush();	
+				bout.close();	
+				fin.close();
+			}
+			return true;
+		
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return false;
+	}
 	
-	
-	
+	//ZIP으로 압축 다운로드
+	public boolean downloadAllZIP(BoardDTO dto, HttpServletResponse resp) {
+		//압축파일 경로
+		String zipFileName = "C://Users/이명희/Downloads/ALL.zip";
+		//파일명,	//등록날짜
+		//이메일계정 가져오기
+		String email = dto.getWriter();
+		String regdate = dto.getRegdate();
+		String no = String.valueOf(dto.getNo());
+		regdate = regdate.substring(0,10);
+		//System.out.println("REGDate : " +regdate);
+		//1 경로설정
+		String downdir="c://upload";	
+		String subpath= downdir+"/"+email+"/"+regdate+"/"+ no +"/";
+		//파일목록 리스트
+		String filelist[] = dto.getFilename().split(";");
+		//2 헤더설정
+		resp.setContentType("application/octet-stream");
+		resp.setHeader("Content-Disposition", "attachment; fileName=ALL_.zip");
+		//3 문자셋 설정
+		try {
+			ZipOutputStream zout = new ZipOutputStream(new FileOutputStream(zipFileName));
+			for(int i = 0; i<filelist.length;i++) {
+				//파일 -> 프로그램 inStream 생성
+				FileInputStream fin = new FileInputStream(subpath +filelist[i]);
+				
+				//ZipEntry 생성,zout에 전달
+				ZipEntry ent = new ZipEntry(filelist[i]);
+				zout.putNextEntry(ent);
+				
+				int read = 0;
+				byte buff[] = new byte[4096];
+				while (true) {
+					read=fin.read(buff,0,buff.length-1);
+					if(read == -1) {
+						break;
+					}
+					zout.write(buff,0,read);
+				}
+				zout.closeEntry();
+				fin.close();
+				zout.flush();
+			}
+			zout.close();
+			return true;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
 }

@@ -153,4 +153,32 @@ public class BoardDAO {
          }
            return dto;
         }
+        
+        public int getLastNo() {
+        	
+        	try {
+				pstmt= conn.prepareStatement("select /*+INDEX_DESC(tbl_board PK_NO) */ rownum rn,no from tbl_board where rownum =1");
+				pstmt.executeQuery();
+				rs.next();
+				int no = rs.getInt(2);
+				return no;
+			} catch (Exception e) {
+				e.printStackTrace();
+			}finally {
+				try {
+					rs.close();
+				} catch (Exception e2) {
+					e2.printStackTrace();
+				}
+				try {
+					pstmt.close();
+				} catch (Exception e2) {
+					e2.printStackTrace();
+				}
+			}
+        	
+        	
+        	
+        	return 0;
+        }
  }
